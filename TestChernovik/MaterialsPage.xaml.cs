@@ -29,9 +29,12 @@ namespace TestChernovik
         {
             get
             {
-                string[] paths = { @"C:\Users\yulia\Desktop\TestChernovik\TestChernovik\bin\Debug", Image };
+                var imageName = Environment.CurrentDirectory + (Image + "");
+                return File.Exists(imageName) ? new Uri(imageName) : null;
+
+                /*string[] paths = { @"C:\Users\yulia\Desktop\TestChernovik\TestChernovik\bin\Debug", Image };
                 var image = string.Concat(paths);
-                return File.Exists(image) ? new Uri(image) : new Uri("pack://application:,,,/Images/picture.png");
+                return File.Exists(image) ? new Uri(image) : new Uri("pack://application:,,,/Images/picture.png");*/
             }
         }
 
@@ -107,10 +110,10 @@ namespace TestChernovik
             }
         }
 
-        private void Invalidate()
+        private void Invalidate(string ComponentName = "MaterialList")
         {
-            /*if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(ComponentName));*/
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(ComponentName));
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs("MaterialsList"));
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs("CurrentPage"));
         }
@@ -237,7 +240,7 @@ namespace TestChernovik
         private void LViewMaterials_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MaterialsSelectedCount = LViewMaterials.SelectedItems.Count;
-            //Invalidate("MinCountBtnVisisble");
+            Invalidate("MinCountBtnVisisble");
         }
 
         public string MinCountBtnVisisble
@@ -269,7 +272,7 @@ namespace TestChernovik
             if (Visibility == Visibility.Visible)
             {
                 bazaEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                MaterialsList = bazaEntities.GetContext().Materials.ToList();
+                _MaterialsList = bazaEntities.GetContext().Materials.ToList();
 
                 txtMaterialCount.Text = _MaterialsList.Count().ToString();
                 

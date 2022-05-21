@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Margin="5 50 5 5">
             <TextBlock Text="Минимальное количество"/>
-            <TextBox x:Name="txtMinCount" Text="{Binding MinCount}"/>
+            <TextBox x:Name="txtMinCount"/>
             <Button x:Name="btnEditMinCount" Width="200" Content="Изменить" Height="35" Margin="10" Click="btnEditMinCount_Click"/>
         </StackPanel>
     </Grid>

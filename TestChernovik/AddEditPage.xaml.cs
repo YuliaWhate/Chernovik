@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
 
 namespace TestChernovik
 {
@@ -36,9 +38,17 @@ namespace TestChernovik
             DataContext = materials;
             comboBoxType.ItemsSource = bazaEntities.GetContext().MaterialType.ToList();
             comboBoxUnit.ItemsSource = UnitList;
-            comboBoxSupplier.ItemsSource = bazaEntities.GetContext().Supplier.ToList();
+            comboBoxSupplier.ItemsSource = Core.DB.Supplier.ToList();
+            
         }
-
+        public Uri ImagePreview
+        {
+            get
+            {
+                var imageName = Environment.CurrentDirectory + (materials.Image + "");
+                return File.Exists(imageName) ? new Uri(imageName) : null;
+            }
+        }
         private string[] UnitList =
         {
             "кг",
@@ -47,11 +57,31 @@ namespace TestChernovik
         };
         private void btnAddSupplier_Click(object sender, RoutedEventArgs e)
         {
-            DGSupplier.Items.Add(comboBoxSupplier.SelectedItem);
+            try
+            {
+                DGSupplier.Items.Add(comboBoxSupplier.SelectedItem);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+            
         }
         private void btnDeleteSupplier_Click(object sender, RoutedEventArgs e)
         {
             DGSupplier.Items.Remove(DGSupplier.SelectedItem);
+        }
+        private void btnEnterImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog GetImageDialog = new OpenFileDialog();
+
+            GetImageDialog.Filter = "Файлы изображений: (*.png, *.jpg, *.jpeg)| *.png; *.jpg; *.jpeg";
+            GetImageDialog.InitialDirectory = Environment.CurrentDirectory;
+            if (GetImageDialog.ShowDialog() == true)
+            {
+                materials.Image = GetImageDialog.FileName.Substring(Environment.CurrentDirectory.Length);
+
+            }
         }
         private void btnSaveMaterial_Click(object sender, RoutedEventArgs e)
         {
@@ -82,9 +112,7 @@ namespace TestChernovik
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        
+        } 
         private void btnDeleteMaterial_Click(object sender, RoutedEventArgs e)
         {
             if(MessageBox.Show($"Вы действительно хотите удалить {materials.Title}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -101,6 +129,6 @@ namespace TestChernovik
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
-        }
+        }        
     }
 }

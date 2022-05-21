@@ -7,6 +7,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddEditPage">
+    <Page.Resources>
+        <BitmapImage x:Key="defaultImage" UriSource="./Images/picture.png"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -61,8 +64,8 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10,10,10,10">
-                    <Image Width="100" Height="100" Source="/Images/picture.png" />
-                    <Button x:Name="btnEnterImage" Content="Выбрать фото" Margin="5"/>
+                    <Image x:Name="ImageBox" Width="100" Height="100" Source="{Binding ImagePreview, TargetNullValue={StaticResource defaultImage}}" />
+                    <Button x:Name="btnEnterImage" Content="Выбрать фото" Margin="5" Click="btnEnterImage_Click"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10,10,10,10">
@@ -79,7 +82,8 @@
 
             <DataGrid x:Name="DGSupplier" Grid.Row="0" Margin="10,10,10,10"/>
 
-            <ComboBox Grid.Row="1" x:Name="comboBoxSupplier" Margin="10,5,10,78" DisplayMemberPath="Title"/>
+
+            <ComboBox Grid.Row="1" x:Name="comboBoxSupplier" Margin="10,5,10,78" DisplayMemberPath="Title" IsEditable="True"/>
             <Button x:Name="btnDeleteSupplier" Grid.Row="1" Height="30" Width="150" Content="Удалить" HorizontalAlignment="Left" Margin="10" Click="btnDeleteSupplier_Click"/>
             <Button x:Name="btnAddSupplier" Grid.Row="1" Height="30" Width="150" Content="Добавить" HorizontalAlignment="Right" Margin="10" Click="btnAddSupplier_Click"/>
         </Grid>

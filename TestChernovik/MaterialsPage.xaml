@@ -7,6 +7,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MaterialsPage" IsVisibleChanged="Page_IsVisibleChanged">
+    <Page.Resources>
+        <BitmapImage x:Key="defaultImage" UriSource="./Images/picture.png"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -49,7 +52,7 @@
                                 <ColumnDefinition Width="140"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Width="64" Height="64" Stretch="Uniform" Source="{Binding Path=ImagePreview}"/>
+                            <Image Width="64" Height="64" Stretch="Uniform" Source="{Binding ImagePreview, TargetNullValue={StaticResource defaultImage}}"/>
 
                             <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5">
                                 <StackPanel Orientation="Horizontal">
@@ -73,6 +76,7 @@
         <Button Name="btnEditMinCount" Visibility="{Binding MinCountBtnVisisble}" Grid.Column="1" Grid.Row="2" Margin="190,10,5,10" Content="Изменить минимальное количество на..." Grid.ColumnSpan="2" Click="btnEditMinCount_Click"/>
         <Button x:Name="btnBack" Visibility="Hidden" Grid.Row="2" Grid.Column="3" Content="Предыдущая" HorizontalAlignment="Left" Margin="15, 5" PreviewMouseDown="btnBack_PreviewMouseDown"/>
         <StackPanel x:Name="Paginator" Orientation="Horizontal" Grid.Row="2" Grid.Column="4" Margin="1,10,0,10"/>
+
         <TextBlock Text="{Binding CurrentPage, StringFormat=Страница {0}}" Grid.Column="3" Grid.Row="2" Margin="10" HorizontalAlignment="Right"/>
 
     </Grid>

@@ -32,7 +32,6 @@ namespace TestChernovik.Windows
             {
                 Result = Convert.ToInt32(txtMinCount.Text);
                 
-
                 DialogResult = true;
 
             }
